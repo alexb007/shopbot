@@ -1,6 +1,6 @@
 # myapp/telegrambot.py
 # Example code for telegrambot.py module
-from telegram import ReplyMarkup, ReplyKeyboardMarkup, KeyboardButton
+from telegram import ReplyMarkup, ReplyKeyboardMarkup
 from telegram.ext import CommandHandler, MessageHandler, Filters
 from django_telegrambot.apps import DjangoTelegramBot
 
@@ -35,12 +35,12 @@ def catalog(bot, update):
         keyboard = []
         for i in range(0, len(categories), 2):
             row = []
-            row.append(KeyboardButton(text=categories[i].title))
+            row.append(categories[i].title)
             if categories.count - 1 > i:
-                row.append(KeyboardButton(text=categories[i + 1].title))
+                row.append(categories[i + 1].title)
             keyboard.append(row)
         bot.sendMessage(update.message.chat_id, text='Выберите категорию', reply_markup=ReplyKeyboardMarkup(
-            keyboard=keyboard
+            keyboard, one_time_keyboard=True
         ))
     else:
         bot.sendMessage(update.message.chat_id, text='Нет категорий приходите поздже')
