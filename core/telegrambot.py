@@ -55,6 +55,7 @@ def echo(bot, update):
             bot.sendMessage(update.message.chat_id, text='Выберите продукт', reply_markup=ReplyKeyboardMarkup(
                 keyboard
             ))
+        tguser.save(update_fields=['menu'])
     elif tguser.menu == 'products':
         if update.message.text == 'Назад':
             tguser.menu = 'categories'
@@ -71,7 +72,7 @@ def echo(bot, update):
                             reply_markup=ReplyKeyboardMarkup(keyboard))
             if tguser.company is None or tguser.company == '':
                 tguser.menu = 'company'
-                tguser.save(update_fields=['menu'])
+                tguser.save(update_fields=['menu', 'selected_product'])
             else:
                 Order.objects.create(
                     product_id=tguser.selected_product,
@@ -83,7 +84,7 @@ def echo(bot, update):
                                 text=f'Поступил новый заказ от представителья компании: {tguser.company}\n '
                                      f'-- продукт --\n'
                                      f'{product.title}({product.id})')
-                # tguser.save(update_fields=['company'])
+                tguser.save(update_fields=['menu', 'selected_product'])
                 catalog(bot, update)
         except Product.DoesNotExist:
             bot.sendMessage(update.message.chat_id, text='Продукт не найден')
@@ -99,8 +100,17 @@ def echo(bot, update):
             client=tguser,
         )
         bot.sendMessage(update.message.chat_id, text='Ваш заказ принят в ближайщее время с вами свяжется наш оператор')
-        bot.sendMessage(chat_id='@shoptgbotchannel', text='Ваш заказ принят в ближайщее время с вами свяжется наш оператор')
-        # tguser.save(update_fields=['company'])
+        try:
+            product = Product.objects.filter(pk=tguser.selected_product)
+            bot.sendMessage(chat_id='@shoptgbotchannel',
+                            text=f'Поступил новый заказ от представителья компании: {tguser.company}\n '
+                                 f'-- продукт --\n'
+                                 f'{product.title}({product.id})')
+            tguser.save(update_fields=['company'])
+        except Exception as ex:
+            bot.sendMessage(update.message.chat_id,
+                            text='Ошибка во время заказа')
+
         catalog(bot, update)
     else:
         bot.sendMessage(update.message.chat_id, text='Нет категорий приходите поздже')
