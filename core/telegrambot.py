@@ -31,7 +31,7 @@ def error(bot, update, error):
 
 def catalog(bot, update):
     categories = Category.objects.all()
-    if categories.count > 0:
+    if len(categories.count) > 0:
         keyboard = []
         for i in range(0, len(categories), 2):
             row = []
