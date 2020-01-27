@@ -80,7 +80,8 @@ def echo(bot, update):
             tguser.save(update_fields=['menu', 'selected_product'])
             return
         tguser.company = update.message.text
-        tguser.save(update_fields=['company'])
+        tguser.selected_product = None
+        tguser.save(update_fields=['company', 'selected_product'])
         client = Client.objects.get_or_create(company=tguser.company, defaults={
             'contact': tguser.username,
         })
