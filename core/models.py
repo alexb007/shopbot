@@ -123,3 +123,40 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
+
+
+class TGUser(models.Model):
+    tgid = models.IntegerField(
+        null=True,
+        blank=True,
+    )
+    username = models.CharField(
+        null=True,
+        blank=True,
+        max_length=100,
+        verbose_name='username'
+    )
+    company = models.CharField(
+        null=True,
+        blank=True,
+        max_length=100,
+        verbose_name='company'
+    )
+    menu = models.CharField(
+        null=True,
+        blank=True,
+        max_length=100,
+        verbose_name='menu'
+    )
+    selected_product = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name='product'
+    )
+
+    def __str__(self):
+        return f'{self.tgid or self.username}'
+
+    class Meta:
+        verbose_name = 'TG User'
+        verbose_name_plural = 'TG Users'
