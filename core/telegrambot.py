@@ -39,6 +39,10 @@ def catalog(bot, update):
             if categories.count - 1 > i:
                 row.append(categories[i + 1].title)
             keyboard.append(row)
+
+        bot.sendMessage(update.message.chat_id, text='s', reply_markup=ReplyKeyboardMarkup(
+            [['ge', 'eg', 'er']]
+        ))
         bot.sendMessage(update.message.chat_id, text='Выберите категорию', reply_markup=ReplyKeyboardMarkup(
             keyboard, one_time_keyboard=True
         ))
