@@ -29,6 +29,10 @@ def error(bot, update, error):
     logger.error('Update "%s" caused error "%s"' % (update, error))
 
 
+def echo(bot, update):
+    update.message.reply_text(update.message.text)
+
+
 def catalog(bot, update):
     categories = Category.objects.all()
     if len(categories) > 0:
@@ -39,11 +43,6 @@ def catalog(bot, update):
             if len(categories) - 1 > i:
                 row.append(categories[i + 1].title)
             keyboard.append(row)
-
-        bot.sendMessage(update.message.chat_id, text='asds')
-        bot.sendMessage(update.message.chat_id, text='s', reply_markup=ReplyKeyboardMarkup(
-            [['ge', 'eg', 'er']]
-        ))
         bot.sendMessage(update.message.chat_id, text='Выберите категорию', reply_markup=ReplyKeyboardMarkup(
             keyboard, one_time_keyboard=True
         ))
@@ -64,6 +63,7 @@ def main():
     dp.add_handler(CommandHandler("start", catalog))
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("categories", catalog))
+    dp.add_handler(MessageHandler(Filters.text, echo))
 
     # on noncommand i.e message - echo the message on Telegram
     # dp.add_handler(MessageHandler([Filters.text], echo))
