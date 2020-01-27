@@ -4,6 +4,7 @@ from core.models import (
     Category,
     Client,
     Order,
+    TGUser,
 )
 
 
@@ -32,3 +33,9 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'product', 'client', 'created')
     list_display_links = ('id', 'product', 'client', 'created')
     date_hierarchy = 'created'
+
+
+@admin.register(TGUser)
+class TGUserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'username', 'tgid', 'company', 'menu')
+    list_display_links = ('id', 'username', 'tgid', 'company', 'menu')
