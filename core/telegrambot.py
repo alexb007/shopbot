@@ -36,7 +36,7 @@ def catalog(bot, update):
         for i in range(0, len(categories), 2):
             row = []
             row.append(categories[i].title)
-            if categories.count - 1 > i:
+            if len(categories) - 1 > i:
                 row.append(categories[i + 1].title)
             keyboard.append(row)
 
