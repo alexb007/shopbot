@@ -1,0 +1,5 @@
+[client]
+database = shoptgbot
+user = shoptgbot
+password = Qazwsxedc123
+default-character-set = utf8

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [
@@ -76,8 +77,10 @@ WSGI_APPLICATION = 'shoptgbot.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': '/home/shoptgbot/shoptgbot/mysql.cnf',
+        },
     }
 }
 
@@ -104,8 +107,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
+LANGUAGES = [
+    ('ru', 'Russian'),
+    ('en', 'English'),
+]
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -122,22 +129,22 @@ STATIC_URL = '/static/'
 
 DJANGO_TELEGRAMBOT = {
 
-    'MODE' : 'WEBHOOK', #(Optional [str]) # The default value is WEBHOOK,
-                        # otherwise you may use 'POLLING'
-                        # NB: if use polling you must provide to run
-                        # a management command that starts a worker
+    'MODE': 'WEBHOOK',  # (Optional [str]) # The default value is WEBHOOK,
+    # otherwise you may use 'POLLING'
+    # NB: if use polling you must provide to run
+    # a management command that starts a worker
 
-    'WEBHOOK_SITE' : 'https://mywebsite.com',
-    'WEBHOOK_PREFIX' : '/prefix', # (Optional[str]) # If this value is specified,
-                                  # a prefix is added to webhook url
+    'WEBHOOK_SITE': 'https://shoptgbot.pythonanywhere.com',
+    'WEBHOOK_PREFIX': '/prefix',  # (Optional[str]) # If this value is specified,
+    # a prefix is added to webhook url
 
-    #'WEBHOOK_CERTIFICATE' : 'cert.pem', # If your site use self-signed
-                         #certificate, must be set with location of your public key
-                         #certificate.(More info at https://core.telegram.org/bots/self-signed )
+    # 'WEBHOOK_CERTIFICATE' : 'cert.pem', # If your site use self-signed
+    # certificate, must be set with location of your public key
+    # certificate.(More info at https://core.telegram.org/bots/self-signed )
 
-    'BOTS' : [
+    'BOTS': [
         {
-           'TOKEN': '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11', #Your bot token.
+            'TOKEN': '1097342681:AAFU7qHMIcjvZSogiEXQU0zPonfGOFI4KXc',  # Your bot token.
 
            #'ALLOWED_UPDATES':(Optional[list[str]]), # List the types of
                                                    #updates you want your bot to receive. For example, specify
