@@ -6,7 +6,7 @@ from django_telegrambot.apps import DjangoTelegramBot
 
 import logging
 
-from core.models import Category, TGUser, Product
+from core.models import Category, TGUser, Product, Order, Client
 
 logger = logging.getLogger(__name__)
 
@@ -80,6 +80,13 @@ def echo(bot, update):
             return
         tguser.company = update.message.text
         tguser.save(update_fields=['company'])
+        client = Client.objects.get_or_create(company=tguser.company, defaults={
+            'contact': tguser.username,
+        })
+        Order.objects.create(
+            product_id=tguser.selected_product,
+            client=tguser,
+        )
         bot.sendMessage(update.message.chat_id, text='Ваш заказ принят в ближайщее время с вами свяжется наш оператор')
         catalog(bot, update)
     else:

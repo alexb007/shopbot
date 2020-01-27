@@ -97,33 +97,6 @@ class Client(models.Model):
         verbose_name_plural = 'Клиенты'
 
 
-class Order(models.Model):
-    product = models.ForeignKey(
-        Product,
-        on_delete=models.CASCADE,
-        related_name='orders',
-        verbose_name='Продукт'
-    )
-
-    client = models.ForeignKey(
-        Client,
-        on_delete=models.CASCADE,
-        related_name='orders',
-        verbose_name='Клиент'
-    )
-
-    created = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата'
-    )
-
-    def __str__(self):
-        return f'Заказ №{self.id or ""}'
-
-    class Meta:
-        verbose_name = 'Заказ'
-        verbose_name_plural = 'Заказы'
-
 
 class TGUser(models.Model):
     tgid = models.IntegerField(
@@ -160,3 +133,32 @@ class TGUser(models.Model):
     class Meta:
         verbose_name = 'TG User'
         verbose_name_plural = 'TG Users'
+
+
+class Order(models.Model):
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name='orders',
+        verbose_name='Продукт'
+    )
+
+    client = models.ForeignKey(
+        TGUser,
+        on_delete=models.CASCADE,
+        related_name='orders',
+        verbose_name='Клиент'
+    )
+
+    created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата'
+    )
+
+    def __str__(self):
+        return f'Заказ №{self.id or ""}'
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+
