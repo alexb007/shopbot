@@ -40,6 +40,7 @@ def catalog(bot, update):
                 row.append(categories[i + 1].title)
             keyboard.append(row)
 
+        bot.sendMessage(update.message.chat_id, text='asds')
         bot.sendMessage(update.message.chat_id, text='s', reply_markup=ReplyKeyboardMarkup(
             [['ge', 'eg', 'er']]
         ))
