@@ -1,4 +1,5 @@
 [client]
+host = shoptgbot.mysql.pythonanywhere-services.com
 database = shoptgbot
 user = shoptgbot
 password = Qazwsxedc123
