@@ -42,6 +42,8 @@ def catalog(bot, update):
         bot.sendMessage(update.message.chat_id, text='Выберите категорию', reply_markup=ReplyKeyboardMarkup(
             keyboard=keyboard
         ))
+    else:
+        bot.sendMessage(update.message.chat_id, text='Нет категорий приходите поздже')
 
 
 def main():
