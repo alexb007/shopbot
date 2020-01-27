@@ -67,7 +67,8 @@ def echo(bot, update):
             keyboard = [['Отменить заказ']]
             bot.sendMessage(update.message.chat_id, text=f'Выбран продукт: {product.title}\n'
                                                          f'Введите реквизиты компании.\n'
-                                                         f'Как называется ваша организация:', reply_markup=keyboard)
+                                                         f'Как называется ваша организация:',
+                            reply_markup=ReplyKeyboardMarkup(keyboard))
             tguser.menu = 'company'
             tguser.save(update_fields=['menu'])
         except Product.DoesNotExist:
@@ -93,7 +94,7 @@ def echo(bot, update):
         bot.sendMessage(update.message.chat_id, text='Нет категорий приходите поздже')
     tguser.save(update_fields=['menu', 'selected_product'])
 
-    update.message.reply_text(update.message.text)
+    # update.message.reply_text(update.message.text)
 
 
 def catalog(bot, update):
