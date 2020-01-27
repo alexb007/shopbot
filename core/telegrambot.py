@@ -69,8 +69,20 @@ def echo(bot, update):
                                                          f'Введите реквизиты компании.\n'
                                                          f'Как называется ваша организация:',
                             reply_markup=ReplyKeyboardMarkup(keyboard))
-            tguser.menu = 'company'
-            tguser.save(update_fields=['menu'])
+            if tguser.company is None or tguser.company == '':
+                tguser.menu = 'company'
+                tguser.save(update_fields=['menu'])
+            else:
+                Order.objects.create(
+                    product_id=tguser.selected_product,
+                    client=tguser,
+                )
+                bot.sendMessage(update.message.chat_id,
+                                text='Ваш заказ принят в ближайщее время с вами свяжется наш оператор')
+                bot.sendMessage(chat_id='@shoptgbotchannel',
+                                text='Ваш заказ принят в ближайщее время с вами свяжется наш оператор')
+                # tguser.save(update_fields=['company'])
+                catalog(bot, update)
         except Product.DoesNotExist:
             bot.sendMessage(update.message.chat_id, text='Продукт не найден')
     elif tguser.menu == 'company':
@@ -80,17 +92,13 @@ def echo(bot, update):
             tguser.save(update_fields=['menu', 'selected_product'])
             return
         tguser.company = update.message.text
-        tguser.selected_product = None
-        tguser.save(update_fields=['company', 'selected_product'])
-        client = Client.objects.get_or_create(company=tguser.company, defaults={
-            'contact': tguser.username,
-        })
         Order.objects.create(
             product_id=tguser.selected_product,
             client=tguser,
         )
         bot.sendMessage(update.message.chat_id, text='Ваш заказ принят в ближайщее время с вами свяжется наш оператор')
         bot.sendMessage(chat_id='@shoptgbotchannel', text='Ваш заказ принят в ближайщее время с вами свяжется наш оператор')
+        # tguser.save(update_fields=['company'])
         catalog(bot, update)
     else:
         bot.sendMessage(update.message.chat_id, text='Нет категорий приходите поздже')
