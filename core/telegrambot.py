@@ -1,9 +1,12 @@
 # myapp/telegrambot.py
 # Example code for telegrambot.py module
+from telegram import ReplyMarkup, ReplyKeyboardMarkup
 from telegram.ext import CommandHandler, MessageHandler, Filters
 from django_telegrambot.apps import DjangoTelegramBot
 
 import logging
+
+from core.models import Category
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +29,21 @@ def error(bot, update, error):
     logger.error('Update "%s" caused error "%s"' % (update, error))
 
 
+def catalog(bot, update):
+    categories = Category.objects.all()
+    if categories.count > 0:
+        keyboard = []
+        for i in range(0, len(categories), 2):
+            row = []
+            row.append(categories[i].title)
+            if categories.count - 1 > i:
+                row.append(categories[i + 1].title)
+            keyboard.append(row)
+        bot.sendMessage(update.message.chat_id, text='Выберите категорию', reply_markup=ReplyKeyboardMarkup(
+            keyboard=keyboard
+        ))
+
+
 def main():
     logger.info("Loading handlers for telegram bot")
 
@@ -36,8 +54,9 @@ def main():
     # dp = DjangoTelegramBot.getDispatcher('BOT_n_username')  #get by bot username
 
     # on different commands - answer in Telegram
-    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("start", catalog))
     dp.add_handler(CommandHandler("help", help))
+    dp.add_handler(CommandHandler("categories", catalog))
 
     # on noncommand i.e message - echo the message on Telegram
     # dp.add_handler(MessageHandler([Filters.text], echo))
