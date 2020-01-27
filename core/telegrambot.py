@@ -80,7 +80,9 @@ def echo(bot, update):
                 bot.sendMessage(update.message.chat_id,
                                 text='Ваш заказ принят в ближайщее время с вами свяжется наш оператор')
                 bot.sendMessage(chat_id='@shoptgbotchannel',
-                                text='Ваш заказ принят в ближайщее время с вами свяжется наш оператор')
+                                text=f'Поступил новый заказ от представителья компании: {tguser.company}\n '
+                                     f'-- продукт --\n'
+                                     f'{product.title}({product.id})')
                 # tguser.save(update_fields=['company'])
                 catalog(bot, update)
         except Product.DoesNotExist:
