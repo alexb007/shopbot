@@ -84,6 +84,7 @@ def echo(bot, update):
                                 text=f'Поступил новый заказ от представителья компании: {tguser.company}\n '
                                      f'-- продукт --\n'
                                      f'{product.title}({product.id})')
+                tguser.menu = 'categories'
                 tguser.save(update_fields=['menu', 'selected_product'])
                 catalog(bot, update)
         except Product.DoesNotExist:
