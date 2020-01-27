@@ -89,7 +89,7 @@ def echo(bot, update):
             client=tguser,
         )
         bot.sendMessage(update.message.chat_id, text='Ваш заказ принят в ближайщее время с вами свяжется наш оператор')
-        bot.sendMessage(1179522719, text='Ваш заказ принят в ближайщее время с вами свяжется наш оператор')
+        bot.sendMessage(chat_id='@shoptgbotchannel', text='Ваш заказ принят в ближайщее время с вами свяжется наш оператор')
         catalog(bot, update)
     else:
         bot.sendMessage(update.message.chat_id, text='Нет категорий приходите поздже')
