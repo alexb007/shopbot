@@ -2,7 +2,7 @@ asgiref==3.2.3
 certifi==2019.11.28
 cffi==1.13.2
 cryptography==2.8
-Django==3.0.2
+Django==3.1.9
 django-telegrambot==1.0.1
 future==0.18.2
 pycparser==2.19
